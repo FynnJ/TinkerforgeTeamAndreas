@@ -1,17 +1,33 @@
+using Tinkerforge.Worker.Notifier;
+
 namespace Tinkerforge.Worker;
 
-public class Worker(ILogger<Worker> logger) : BackgroundService
+public class Worker(
+    ILogger<Worker> logger,
+    IPConnection ipconnection,
+    NotifierService notifierService)
+    : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        while (!stoppingToken.IsCancellationRequested)
+        try
         {
-            if (logger.IsEnabled(LogLevel.Information))
+            while (!stoppingToken.IsCancellationRequested)
             {
-                logger.LogInformation("Worker running at: {Time}", DateTimeOffset.Now);
-            }
+                notifierService.ExecuteService();
 
-            await Task.Delay(1000, stoppingToken);
+                logger.LogInformation("Worker running at: {Time}", DateTimeOffset.Now);
+                await Task.Delay(1000, stoppingToken);
+            }
+        }
+        catch (Exception exception)
+        {
+            logger.LogError(exception, exception.Message);
+        }
+        finally
+        {
+            ipconnection.Disconnect();
+            logger.LogInformation("Successfully disconnected from Tinkerforge");
         }
     }
 }
