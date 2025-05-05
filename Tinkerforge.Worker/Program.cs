@@ -8,7 +8,7 @@ builder.Services.AddHostedService<Worker>();
 builder.Services.AddSingleton<IPConnection>(_ =>
 {
     var ipConnection = new IPConnection();
-    // ipConnection.Connect("172.20.10.242", 4223);
+    ipConnection.Connect("172.20.10.242", 4223);
     return ipConnection;
 });
 

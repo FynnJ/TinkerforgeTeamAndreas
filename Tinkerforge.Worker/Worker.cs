@@ -26,7 +26,7 @@ public class Worker(
         }
         finally
         {
-            // ipconnection.Disconnect();
+            ipconnection.Disconnect();
             logger.LogInformation("Successfully disconnected from Tinkerforge");
         }
     }

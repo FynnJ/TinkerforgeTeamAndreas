@@ -8,7 +8,7 @@ public class NotifierService(ILogger<NotifierService> logger, IPConnection ipCon
     {
         var ptc = new BrickletPTCV2(Uid, ipConnection);
 
-        // var temperature = ptc.GetTemperature();
-        logger.LogInformation("Temperature: {Temperature} °C", 3000 / 100);
+        var temperature = ptc.GetTemperature();
+        logger.LogInformation("Temperature: {Temperature} °C", temperature / 100);
     }
 }
