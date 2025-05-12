@@ -5,20 +5,17 @@ namespace Tinkerforge.Worker;
 public class Worker(
     ILogger<Worker> logger,
     IPConnection ipconnection,
-    NotifierService notifierService,
-    ITelegramService telegramService)
+    NotifierService notifierService)
     : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         try
         {
-            await telegramService.SendMessageAsync("Test");
-            
+            notifierService.ExecuteService();
+
             while (!stoppingToken.IsCancellationRequested)
             {
-                notifierService.ExecuteService();
-            
                 logger.LogInformation("Worker running at: {Time}", DateTimeOffset.Now);
                 await Task.Delay(1000, stoppingToken);
             }

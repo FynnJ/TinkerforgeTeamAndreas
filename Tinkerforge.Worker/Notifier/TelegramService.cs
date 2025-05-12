@@ -10,19 +10,27 @@ public class TelegramService(
 {
     public async Task SendMessageAsync(string message)
     {
-        var response = await telegramClient.SendMessageAsync(telegramConfiguration.Token!, new TelegramMessageRequest
+        try
         {
-            chat_id = telegramConfiguration.ChatId!,
-            text = message
-        });
+            var response = await telegramClient.SendMessageAsync(telegramConfiguration.Token!,
+                new TelegramMessageRequest
+                {
+                    chat_id = telegramConfiguration.ChatId!,
+                    text = message
+                });
 
-        if (response.IsSuccessStatusCode)
-        {
-            logger.LogInformation("Message sent successfully");
+            if (response.IsSuccessStatusCode)
+            {
+                logger.LogInformation("Message sent successfully");
+            }
+            else
+            {
+                logger.LogError("Error sending message. Error: {Error}", response.StatusCode);
+            }
         }
-        else
+        catch (Exception e)
         {
-            logger.LogError("Error sending message. Error: {Error}", response.StatusCode);
+            logger.LogError(e, e.Message);
         }
     }
 }
