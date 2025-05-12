@@ -1,5 +1,6 @@
 using Tinkerforge;
 using Tinkerforge.Worker;
+using Tinkerforge.Worker.MotionSensor;
 using Tinkerforge.Worker.Notifier;
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -13,6 +14,7 @@ builder.Services.AddSingleton<IPConnection>(_ =>
 });
 
 builder.Services.AddTransient<NotifierService>();
+builder.Services.AddTransient<MotionService>();
 
 var host = builder.Build();
 await host.RunAsync();

@@ -1,17 +1,21 @@
 using Tinkerforge.Worker.Notifier;
+using Tinkerforge.Worker.MotionSensor;
 
 namespace Tinkerforge.Worker;
 
 public class Worker(
     ILogger<Worker> logger,
     IPConnection ipconnection,
-    NotifierService notifierService)
+    NotifierService notifierService,
+    MotionService motionService)
     : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         try
         {
+            motionService.ExecuteService();
+
             while (!stoppingToken.IsCancellationRequested)
             {
                 notifierService.ExecuteService();
