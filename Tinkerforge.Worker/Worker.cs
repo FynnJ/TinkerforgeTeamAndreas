@@ -14,14 +14,12 @@ public class Worker(
     {
         try
         {
-<<<<<<< HEAD
-            notifierService.ExecuteService();
-=======
             motionService.ExecuteService();
->>>>>>> 7c47bc5 (Initial Construct)
 
             while (!stoppingToken.IsCancellationRequested)
             {
+                notifierService.ExecuteService();
+
                 logger.LogInformation("Worker running at: {Time}", DateTimeOffset.Now);
                 await Task.Delay(1000, stoppingToken);
             }

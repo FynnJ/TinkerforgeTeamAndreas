@@ -11,9 +11,6 @@ public class MotionService (ILogger<MotionService> logger, IPConnection ipConnec
     }
     void MotionDetected(BrickletMotionDetectorV2 sender)
     {
-        sender.SetIndicator(125,255,255);
-        Console.WriteLine("Motion Detected", sender.GetMotionDetected());
-        
         StartCountdown(sender);
     }
 
