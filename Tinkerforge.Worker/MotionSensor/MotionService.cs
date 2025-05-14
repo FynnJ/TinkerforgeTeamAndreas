@@ -1,4 +1,4 @@
-using Tinkerforge.Worker.Notifier;
+using Tinkerforge.Worker.NotificationService;
 
 namespace Tinkerforge.Worker.MotionSensor;
 

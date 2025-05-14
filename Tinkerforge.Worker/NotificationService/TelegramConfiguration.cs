@@ -1,4 +1,4 @@
-﻿namespace Tinkerforge.Worker.Notifier;
+﻿namespace Tinkerforge.Worker.NotificationService;
 
 public record TelegramConfiguration
 {
