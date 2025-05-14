@@ -25,7 +25,7 @@ public class MotionService (ILogger<MotionService> logger, IPConnection ipConnec
     const string Uid = "Tre";
 
         BrickletSegmentDisplay4x7V2 SegmentDisplay = new BrickletSegmentDisplay4x7V2(Uid, ipConnection);
-        SegmentDisplay.StartCounter(5,0,-1,1000);
+        SegmentDisplay.StartCounter(60,0,-1,1000);
         SegmentDisplay.CounterFinishedCallback += NotAuthorizedAlarm;
         sender.SetIndicator(0,0,0);
     }
