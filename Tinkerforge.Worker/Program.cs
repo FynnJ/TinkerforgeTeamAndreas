@@ -7,6 +7,8 @@ using Tinkerforge.Worker.Notifier.TelegramClient;
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddHostedService<Worker>();
+builder.Services.AddHostedService<NotifierWorker>();
+builder.Services.AddHostedService<MotionWorker>();
 
 builder.Services.AddSingleton<IPConnection>(_ =>
 {
