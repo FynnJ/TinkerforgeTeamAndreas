@@ -1,14 +1,32 @@
 ﻿namespace Tinkerforge.Worker.Notifier;
 
-public class NotifierService(ILogger<NotifierService> logger, IPConnection ipConnection) : IFeatureService
+public class NotifierService(
+    IPConnection ipConnection,
+    ITelegramService telegramService)
+    : IFeatureService
 {
-    private const string Uid = "Wcg";
+    private const string TemperatureSensorUid = "Wcg";
+    private const string HumiditySensorUid = "ViW";
 
     public void ExecuteService()
     {
-        var ptc = new BrickletPTCV2(Uid, ipConnection);
+        var temperatureSensor = new BrickletPTCV2(TemperatureSensorUid, ipConnection);
+        var humiditySensor = new BrickletHumidityV2(HumiditySensorUid, ipConnection);
 
-        var temperature = ptc.GetTemperature();
-        logger.LogInformation("Temperature: {Temperature} °C", temperature / 100);
+        temperatureSensor.TemperatureCallback += NotifyHighTemperature;
+        temperatureSensor.SetTemperatureCallbackConfiguration(10000, false, '>', 30 * 100, 0);
+
+        humiditySensor.HumidityCallback += NotifyHighHumidity;
+        humiditySensor.SetHumidityCallbackConfiguration(10000, false, '>', 60 * 100, 0);
+    }
+
+    private void NotifyHighTemperature(BrickletPTCV2 sender, int temperature)
+    {
+        telegramService.SendMessageAsync($"Warning - High Temperature: {temperature / 100}°C");
+    }
+
+    private void NotifyHighHumidity(BrickletHumidityV2 sender, int humidity)
+    {
+        telegramService.SendMessageAsync($"Warning - High Humidity: {humidity / 100}%");
     }
 }

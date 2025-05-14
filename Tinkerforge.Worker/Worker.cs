@@ -1,11 +1,13 @@
 using Tinkerforge.Worker.DataMonitoring;
 using Tinkerforge.Worker.Notifier;
+using Tinkerforge.Worker.MotionSensor;
 
 namespace Tinkerforge.Worker;
 
 public class Worker(
     ILogger<Worker> logger,
     IPConnection ipconnection,
+    MotionService motionService,
     NotifierService notifierService,
     DataMonitoringService dataMonitoringService
     )
@@ -15,11 +17,12 @@ public class Worker(
     {
         try
         {
+            motionService.ExecuteService();
+            notifierService.ExecuteService();
+            dataMonitoringService.ExecuteService();
+
             while (!stoppingToken.IsCancellationRequested)
             {
-                notifierService.ExecuteService();
-                dataMonitoringService.ExecuteService();
-
                 logger.LogInformation("Worker running at: {Time}", DateTimeOffset.Now);
                 await Task.Delay(1000, stoppingToken);
             }
