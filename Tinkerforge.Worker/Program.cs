@@ -1,6 +1,7 @@
 using RestEase;
 using Tinkerforge;
 using Tinkerforge.Worker;
+using Tinkerforge.Worker.MotionSensor;
 using Tinkerforge.Worker.Notifier;
 using Tinkerforge.Worker.Notifier.TelegramClient;
 
@@ -24,6 +25,7 @@ builder.Services.AddTransient<ITelegramClient>(serviceProvider =>
 builder.Services.AddTransient<ITelegramService, TelegramService>();
 
 builder.Services.AddTransient<NotifierService>();
+builder.Services.AddTransient<MotionService>();
 
 var host = builder.Build();
 await host.RunAsync();
