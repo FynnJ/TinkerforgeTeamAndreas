@@ -15,10 +15,10 @@ public class Worker(
         try
         {
             motionService.ExecuteService();
+            notifierService.ExecuteService();
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                notifierService.ExecuteService();
 
                 logger.LogInformation("Worker running at: {Time}", DateTimeOffset.Now);
                 await Task.Delay(1000, stoppingToken);
