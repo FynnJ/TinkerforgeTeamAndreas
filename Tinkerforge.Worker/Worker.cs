@@ -19,7 +19,6 @@ public class Worker(
 
             while (!stoppingToken.IsCancellationRequested)
             {
-
                 logger.LogInformation("Worker running at: {Time}", DateTimeOffset.Now);
                 await Task.Delay(1000, stoppingToken);
             }
