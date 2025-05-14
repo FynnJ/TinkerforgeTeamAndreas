@@ -1,8 +1,11 @@
+using Tinkerforge.Worker.Notifier;
+
 namespace Tinkerforge.Worker.MotionSensor;
 
-public class MotionService (ILogger<MotionService> logger, IPConnection ipConnection) : IFeatureService
+public class MotionService (ILogger<MotionService> logger, IPConnection ipConnection, ITelegramService telegramService) : IFeatureService
 {
     private const string Uid = "ML4";
+    
     public void ExecuteService()
     {
         BrickletMotionDetectorV2 MotionSensor = new BrickletMotionDetectorV2(Uid, ipConnection);
@@ -11,6 +14,7 @@ public class MotionService (ILogger<MotionService> logger, IPConnection ipConnec
     }
     void MotionDetected(BrickletMotionDetectorV2 sender)
     {
+        sender.SetIndicator(255,255,255);
         StartCountdown(sender);
     }
 
@@ -21,6 +25,7 @@ public class MotionService (ILogger<MotionService> logger, IPConnection ipConnec
         BrickletSegmentDisplay4x7V2 SegmentDisplay = new BrickletSegmentDisplay4x7V2(Uid, ipConnection);
         SegmentDisplay.StartCounter(10,0,-1,1000);
         SegmentDisplay.CounterFinishedCallback += NotAuthorizedAlarm;
+        sender.SetIndicator(0,0,0);
     }
 
     void NotAuthorizedAlarm(BrickletSegmentDisplay4x7V2 sender)
@@ -29,5 +34,6 @@ public class MotionService (ILogger<MotionService> logger, IPConnection ipConnec
 
         BrickletPiezoSpeakerV2 Alarm = new BrickletPiezoSpeakerV2(Uid, ipConnection);
         Alarm.SetAlarm(800,2000,10,1,1,10000);
+        telegramService.SendMessageAsync("Unautorisierte Bewegung erkannt");
     }
 }
