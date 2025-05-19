@@ -1,6 +1,6 @@
 using Tinkerforge.Worker.NotificationService;
 
-namespace Tinkerforge.Worker.MotionSensor;
+namespace Tinkerforge.Worker.MotionService;
 
 public class MotionService (ILogger<MotionService> logger, IPConnection ipConnection, ITelegramService telegramService) : IFeatureService
 {

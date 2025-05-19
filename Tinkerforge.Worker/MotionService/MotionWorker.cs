@@ -1,4 +1,4 @@
-﻿namespace Tinkerforge.Worker.MotionSensor;
+﻿namespace Tinkerforge.Worker.MotionService;
 
 public class MotionWorker(
     ILogger<Worker> logger,
