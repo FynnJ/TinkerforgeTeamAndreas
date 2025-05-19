@@ -1,6 +1,6 @@
 ﻿using RestEase;
 
-namespace Tinkerforge.Worker.Notifier.TelegramClient;
+namespace Tinkerforge.Worker.NotificationService.TelegramClient;
 
 public interface ITelegramClient
 {
