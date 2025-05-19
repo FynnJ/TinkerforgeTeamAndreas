@@ -25,8 +25,6 @@ cd SuperMagicalCodeThingy
 make it go brrrr 💨  
 ```
 
-(Okay fine, just run python thingy.py or whatever… 😅)
-
 ---
 
 ## 🐞 Bugs? Features?? Who can say?! (╯°□°）╯︵ ┻━┻
