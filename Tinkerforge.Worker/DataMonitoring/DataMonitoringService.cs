@@ -1,9 +1,10 @@
 namespace Tinkerforge.Worker.DataMonitoring;
 
+using Microsoft.Extensions.Logging;
 using Tinkerforge;
 using System.Threading;
 
-public class DataMonitoringService(IPConnection ipConnection) : IFeatureService
+public class DataMonitoringService(ILogger<DataMonitoringService> logger, IPConnection ipConnection) : IFeatureService
 {
     private readonly string _displayId = "24Rh";
     private readonly string _tempId = "Wcg";
@@ -21,39 +22,40 @@ public class DataMonitoringService(IPConnection ipConnection) : IFeatureService
         var light = new BrickletAmbientLightV3(_lightId, ipConnection);
         var dualButton = new BrickletDualButtonV2(_buttonId, ipConnection);
 
-        dualButton.SetLEDState(BrickletDualButtonV2.LED_LEFT, BrickletDualButtonV2.LED_STATE_OFF);
-        dualButton.SetLEDState(BrickletDualButtonV2.LED_RIGHT, BrickletDualButtonV2.LED_STATE_OFF);
-
         lcd.SetDisplayConfiguration(128, 255, false, true);
         DisplayCurrentValue(lcd, ptc, humid, light);
-
-        while (true)
+        
+        dualButton.SetLEDState(BrickletDualButtonV2.LED_LEFT, BrickletDualButtonV2.LED_STATE_OFF);
+        dualButton.SetLEDState(BrickletDualButtonV2.LED_RIGHT, BrickletDualButtonV2.LED_STATE_OFF);
+        
+        dualButton.StateChangedCallback += (sender, buttonL, buttonR, ledR, ledL) =>
         {
-            byte buttonL, buttonR;
-            dualButton.GetButtonState(out buttonL, out buttonR);
-
-            if (buttonL == 0) 
+            logger.LogInformation("buttonL {buttonL}", buttonL);
+            logger.LogInformation("buttonR {buttonR}", buttonR);
+            if (buttonL == BrickletDualButtonV2.BUTTON_STATE_PRESSED)
             {
-                dualButton.SetLEDState(BrickletDualButtonV2.LED_LEFT, BrickletDualButtonV2.LED_STATE_ON);
-                Thread.Sleep(200); 
-                dualButton.SetLEDState(BrickletDualButtonV2.LED_LEFT, BrickletDualButtonV2.LED_STATE_OFF);
+                dualButton.SetLEDState(BrickletDualButtonV2.LED_STATE_ON, BrickletDualButtonV2.LED_STATE_OFF);
+                Thread.Sleep(150);
+                dualButton.SetLEDState(BrickletDualButtonV2.LED_STATE_OFF, BrickletDualButtonV2.LED_STATE_OFF);
 
                 SwitchDisplayValue(reverse: true);
                 DisplayCurrentValue(lcd, ptc, humid, light);
             }
-            else if (buttonR == 0)
+
+            if (buttonR == BrickletDualButtonV2.BUTTON_STATE_PRESSED)
             {
-                dualButton.SetLEDState(BrickletDualButtonV2.LED_RIGHT, BrickletDualButtonV2.LED_STATE_ON);
-                Thread.Sleep(200); 
-                dualButton.SetLEDState(BrickletDualButtonV2.LED_RIGHT, BrickletDualButtonV2.LED_STATE_OFF);
+                dualButton.SetLEDState(BrickletDualButtonV2.LED_STATE_OFF, BrickletDualButtonV2.LED_STATE_ON);
+                Thread.Sleep(150);
+                dualButton.SetLEDState(BrickletDualButtonV2.LED_STATE_OFF, BrickletDualButtonV2.LED_STATE_OFF);
 
                 SwitchDisplayValue(reverse: false);
                 DisplayCurrentValue(lcd, ptc, humid, light);
             }
-
-            Thread.Sleep(10);
-        }
+        };
+        
+        Thread.Sleep(Timeout.Infinite);
     }
+
 
     private void DisplayCurrentValue(BrickletLCD128x64 lcd, BrickletPTCV2 ptc, BrickletHumidityV2 humid, BrickletAmbientLightV3 light)
     {
