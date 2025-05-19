@@ -1,6 +1,6 @@
-﻿namespace Tinkerforge.Worker.Notifier;
+﻿namespace Tinkerforge.Worker.NotificationService;
 
-public class NotifierService(
+public class NotificationService(
     IPConnection ipConnection,
     ITelegramService telegramService)
     : IFeatureService

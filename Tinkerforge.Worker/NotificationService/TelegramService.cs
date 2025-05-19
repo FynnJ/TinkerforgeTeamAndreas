@@ -1,6 +1,6 @@
-﻿using Tinkerforge.Worker.Notifier.TelegramClient;
+﻿using Tinkerforge.Worker.NotificationService.TelegramClient;
 
-namespace Tinkerforge.Worker.Notifier;
+namespace Tinkerforge.Worker.NotificationService;
 
 public class TelegramService(
     ILogger<TelegramService> logger,
