@@ -19,8 +19,20 @@ public static class NotificationServiceRegistrar
 
         services.AddTransient<ITelegramService, TelegramService>();
 
-        services.AddTransient<NotificationService>();
-        
+        services.AddTransient<NotificationService>(serviceProvider =>
+        {
+            var ipConnection = serviceProvider.GetRequiredService<IPConnection>();
+            var telegramService = serviceProvider.GetRequiredService<ITelegramService>();
+            var temperatureThreshold = configuration["MonitoringThreshold:Temperature"] ?? "30";
+            var humidityThreshold = configuration["MonitoringThreshold:Humidity"] ?? "60";
+
+            return new NotificationService(
+                ipConnection,
+                telegramService,
+                int.Parse(temperatureThreshold),
+                int.Parse(humidityThreshold));
+        });
+
         return services;
     }
 }
