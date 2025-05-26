@@ -1,10 +1,9 @@
 namespace Tinkerforge.Worker.DataMonitoring;
 
-using Microsoft.Extensions.Logging;
 using Tinkerforge;
 using System.Threading;
 
-public class DataMonitoringService(ILogger<DataMonitoringService> logger, IPConnection ipConnection) : IFeatureService
+public class DataMonitoringService(IPConnection ipConnection) : IFeatureService
 {
     private readonly string _displayId = "24Rh";
     private readonly string _tempId = "Wcg";
@@ -30,8 +29,6 @@ public class DataMonitoringService(ILogger<DataMonitoringService> logger, IPConn
         
         dualButton.StateChangedCallback += (sender, buttonL, buttonR, ledR, ledL) =>
         {
-            logger.LogInformation("buttonL {buttonL}", buttonL);
-            logger.LogInformation("buttonR {buttonR}", buttonR);
             if (buttonL == BrickletDualButtonV2.BUTTON_STATE_PRESSED)
             {
                 dualButton.SetLEDState(BrickletDualButtonV2.LED_STATE_ON, BrickletDualButtonV2.LED_STATE_OFF);
@@ -52,8 +49,6 @@ public class DataMonitoringService(ILogger<DataMonitoringService> logger, IPConn
                 DisplayCurrentValue(lcd, ptc, humid, light);
             }
         };
-        
-        Thread.Sleep(Timeout.Infinite);
     }
 
 
