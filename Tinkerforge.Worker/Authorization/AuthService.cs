@@ -12,7 +12,7 @@ public class AuthService : IDisposable
     
     private readonly IPConnection _ipConnection;
     
-    private BrickletNFCRFID _nfc;
+    private BrickletNFC _nfc;
     private BrickletEPaper296x128 _eInk;
     private BrickletRGBLEDButton _ledButton;
     
@@ -36,7 +36,7 @@ public class AuthService : IDisposable
     {
         try
         {
-            _nfc = new BrickletNFCRFID(nfcUid, _ipConnection);
+            _nfc = new BrickletNFC(nfcUid, _ipConnection);
             _eInk = new BrickletEPaper296x128(eInkUid, _ipConnection);
             _ledButton = new BrickletRGBLEDButton(rgbUid, _ipConnection);
             
@@ -48,10 +48,12 @@ public class AuthService : IDisposable
             _ipConnection.ConnectedCallback += OnConnected;
             _ipConnection.DisconnectedCallback += OnDisconnected;
 
-            _nfc.StateChangedCallback += OnStateChanged;
+            _nfc.ReaderStateChangedCallback += OnReaderStateChanged;
             _ledButton.ButtonStateChangedCallback += OnButtonStateChanged;
             
-            _nfc.RequestTagID(BrickletNFCRFID.TAG_TYPE_MIFARE_CLASSIC);
+            ResetAuthenticationState();
+            
+            _nfc.ReaderRequestTagID();
             
             return true;
         }
@@ -80,18 +82,18 @@ public class AuthService : IDisposable
     
         _ledButton.SetColor(0, 0, 255); // Blau für Bereitschaft
         
-        _nfc.RequestTagID(BrickletNFCRFID.TAG_TYPE_MIFARE_CLASSIC);
+        _nfc.ReaderRequestTagID();
     }
 
-    private void OnStateChanged(BrickletNFCRFID sender, byte state, bool idle)
+    private void OnReaderStateChanged(BrickletNFC sender, byte state, bool idle)
 {
-    if (state == BrickletNFCRFID.STATE_REQUEST_TAG_ID)
+    if (state == BrickletNFC.READER_STATE_REQUEST_NDEF_READY)
     {
         try
         {
             // UID holen
-            sender.GetTagID(out byte tagType, out byte tidLength, out byte[] tid);
-            string uid = BitConverter.ToString(tid, 0, tidLength).Replace("-", "");
+            sender.ReaderGetTagID(out byte tagType, out byte[] tagId);
+            string uid = BitConverter.ToString(tagId).Replace("-", "");
 
             Console.WriteLine($"Karte erkannt: {uid}");
 
@@ -209,7 +211,7 @@ public class AuthService : IDisposable
             _timer?.Dispose();
             
             if (_nfc != null) 
-                _nfc.StateChangedCallback -= OnStateChanged;
+                _nfc.ReaderStateChangedCallback += OnReaderStateChanged;
         
             if (_ledButton != null)
                 _ledButton.ButtonStateChangedCallback -= OnButtonStateChanged;
