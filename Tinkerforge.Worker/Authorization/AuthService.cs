@@ -32,7 +32,7 @@ public class AuthService : IDisposable
         _ipConnection = ipConnection ?? throw new ArgumentNullException(nameof(ipConnection));
     }
 
-    public void Initialize()
+    public bool Initialize()
     {
         try
         {
@@ -52,10 +52,13 @@ public class AuthService : IDisposable
             _ledButton.ButtonStateChangedCallback += OnButtonStateChanged;
             
             _nfc.RequestTagID(BrickletNFCRFID.TAG_TYPE_MIFARE_CLASSIC);
+            
+            return true;
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Initialisierung fehlgeschlagen: {ex.Message}");
+            return false;
         }
     }
 
