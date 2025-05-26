@@ -9,6 +9,7 @@ public class Worker(
     {
         try
         {
+            
             while (!stoppingToken.IsCancellationRequested)
             {
                 logger.LogInformation("Worker running at: {Time}", DateTimeOffset.Now);
