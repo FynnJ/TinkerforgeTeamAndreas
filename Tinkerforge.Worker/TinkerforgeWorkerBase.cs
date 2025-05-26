@@ -1,17 +1,15 @@
-namespace Tinkerforge.Worker;
+﻿namespace Tinkerforge.Worker;
 
-public class Worker(
-    ILogger<Worker> logger,
-    IPConnection ipconnection)
-    : BackgroundService
+public abstract class TinkerforgeWorkerBase(ILogger<Worker> logger) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         try
         {
+            ExecuteService();
+
             while (!stoppingToken.IsCancellationRequested)
             {
-                logger.LogInformation("Worker running at: {Time}", DateTimeOffset.Now);
                 await Task.Delay(1000, stoppingToken);
             }
         }
@@ -19,10 +17,7 @@ public class Worker(
         {
             logger.LogError(exception, exception.Message);
         }
-        finally
-        {
-            ipconnection.Disconnect();
-            logger.LogInformation("Successfully disconnected from Tinkerforge");
-        }
     }
+
+    protected abstract void ExecuteService();
 }
