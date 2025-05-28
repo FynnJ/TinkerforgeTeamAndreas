@@ -17,14 +17,15 @@ public class AuthService : IDisposable
     private BrickletRGBLEDButton _ledButton;
     
     private readonly string nfcUid = "22ND";
-    private readonly string eInkUid = "XGL";
+    private readonly string eInkUid = "24KJ";
     private readonly string rgbUid = "23Qx";
     
     // Following HashSet contains only dummy values
     private readonly HashSet<string> _authorizedUids = new()
     {
-        "04A1B2C3D4",
-        "123456789A"
+        "04DA7B7AFE1D90",
+        "04EC6642B91190",
+        "04E3F4B78F6180"
     };
 
     public AuthService(IPConnection ipConnection)
@@ -53,7 +54,7 @@ public class AuthService : IDisposable
             
             ResetAuthenticationState();
             
-            _nfc.ReaderRequestTagID();
+            _nfc.SetMode(BrickletNFC.MODE_READER);
             
             return true;
         }
@@ -87,7 +88,7 @@ public class AuthService : IDisposable
 
     private void OnReaderStateChanged(BrickletNFC sender, byte state, bool idle)
 {
-    if (state == BrickletNFC.READER_STATE_REQUEST_NDEF_READY)
+    if (state == BrickletNFC.READER_STATE_REQUEST_TAG_ID_READY)
     {
         try
         {
