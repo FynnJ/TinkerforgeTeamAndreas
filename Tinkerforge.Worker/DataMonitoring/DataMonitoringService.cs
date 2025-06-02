@@ -63,7 +63,7 @@ public class DataMonitoringService(IPConnection ipConnection) : IFeatureService
         switch (_currentValue)
         {
             case 0:
-                lcd.WriteLine(0, 0, $"Temperatur: {temperature:F1} Celsius");
+                lcd.WriteLine(0, 0, $"Temperatur: {temperature:F1} C");
                 break;
             case 1:
                 lcd.WriteLine(0, 0, $"Feuchtigkeit: {humidity:F1} %");
