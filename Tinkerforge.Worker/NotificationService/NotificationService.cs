@@ -2,7 +2,9 @@
 
 public class NotificationService(
     IPConnection ipConnection,
-    ITelegramService telegramService)
+    ITelegramService telegramService,
+    int temperatureThreshold,
+    int humidityThreshold)
     : IFeatureService
 {
     private const string TemperatureSensorUid = "Wcg";
@@ -14,10 +16,10 @@ public class NotificationService(
         var humiditySensor = new BrickletHumidityV2(HumiditySensorUid, ipConnection);
 
         temperatureSensor.TemperatureCallback += NotifyHighTemperature;
-        temperatureSensor.SetTemperatureCallbackConfiguration(10000, false, '>', 30 * 100, 0);
+        temperatureSensor.SetTemperatureCallbackConfiguration(10000, false, '>', temperatureThreshold * 100, 0);
 
         humiditySensor.HumidityCallback += NotifyHighHumidity;
-        humiditySensor.SetHumidityCallbackConfiguration(10000, false, '>', 60 * 100, 0);
+        humiditySensor.SetHumidityCallbackConfiguration(10000, false, '>', humidityThreshold * 100, 0);
     }
 
     private void NotifyHighTemperature(BrickletPTCV2 sender, int temperature)
