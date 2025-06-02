@@ -58,6 +58,3 @@ Software may spontaneously sparkle. Use at your own risk ✨
 
 ## 🌈 License
 MIT License — because freedom (｡♥‿♥｡)
-
-## One branch
-Master ist the one and only branch we use!
