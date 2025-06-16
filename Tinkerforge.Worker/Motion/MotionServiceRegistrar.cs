@@ -5,7 +5,7 @@ public static class MotionServiceRegistrar
     public static IServiceCollection AddMotionServices(this IServiceCollection services)
     {
         services.AddHostedService<MotionWorker>();
-        services.AddSingleton<MotionService>();
+        services.AddTransient<MotionService>();
 
         return services;
     }
