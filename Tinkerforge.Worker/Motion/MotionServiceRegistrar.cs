@@ -1,4 +1,4 @@
-﻿namespace Tinkerforge.Worker.MotionService;
+﻿namespace Tinkerforge.Worker.Motion;
 
 public static class MotionServiceRegistrar
 {
