@@ -1,4 +1,5 @@
 # 🌸 Wasserfall im Blütenmeer
+![Wasserfall im Blütenmeer](https://f4.bcbits.com/img/a2632020550_10.jpg)
 
 (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ **What is this???**  
 This is *Wasserfall im Blütenmeer* — an aesthetically confused yet emotionally stable server monitoring tool handcrafted by **Team Andreas**.  
