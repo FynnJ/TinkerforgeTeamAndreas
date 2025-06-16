@@ -1,60 +1,53 @@
-# ✨🌸 Welcome to *SuperMagicalCodeThingy* 🌸✨
-> *(The software you never knew you desperately needed 💻🐣)*
+# 🌸 Wasserfall im Blütenmeer
 
 (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ **What is this???**  
-This is the *SuperMagicalCodeThingy* (SMCT) — a breathtakingly questionable, gloriously over-engineered solution to... something.  
-We're not totally sure what yet, but wow, look at all those functions! ✨（＾・ω・＾）
+This is *Wasserfall im Blütenmeer* — an aesthetically confused yet emotionally stable server monitoring tool handcrafted by **Team Andreas**.  
+It’s soft. It’s observant. It stares into your server’s soul... so you don’t have to.
+
+Do we know why it’s called that?  
+No. But it’s beautiful, okay?
 
 ---
 
-## 🧁 Features! (So many wow 😳)
+## 🌧️ Why though?
 
-- 🦄 Does *something* when you run it (maybe even the thing you wanted!)
-- 💥 Crashes in **style** (with helpful? error messages like `"Oopsie! (>﹏<)"`)
-- 🐱‍💻 Written entirely in code we mostly understand!
-- 💡 99% bug-free\*  
-  \*according to our plushie QA team 🧸
+Let’s be honest. Most monitoring tools are:
+
+- 🚫 Loud  
+- 🚫 Boring  
+- 🚫 Judgy when your RAM hits 98%
+
+So we built *Wasserfall im Blütenmeer* instead:  
+A tool that watches, logs, and occasionally panics – **gently**.  
+It's like if a cherry blossom had a dashboard.
 
 ---
 
-## 🛠️ How 2 Use It (っ◕‿◕)っ
+## 🌼 Philosophy (yes, really)
+
+> “Monitor everything. Panic gracefully. Restart with dignity.”  
+> — *Unknown sysadmin, probably crying*
+
+Wasserfall im Blütenmeer doesn't just measure your system.  
+It feels it. Deeply. 💫
+
+---
+
+## 💫 What does it actually do? (Besides vibe)
+
+- 👀 Watches your server metrics like a concerned forest spirit  
+- 📜 Writes logs in a way that says, “I care, but I’m not mad”  
+- 🌸 Sends alerts with the emotional weight of a 90s anime outro  
+- 🤖 Runs on technologies we definitely Googled first
+
+It might even do something useful. We think.
+
+---
+
+## 🛠️ How 2 Make It Work (maybe)
 
 ```bash
-git clone https://github.com/yourname/SuperMagicalCodeThingy.git  
-cd SuperMagicalCodeThingy  
-make it go brrrr 💨  
-```
-
----
-
-## 🐞 Bugs? Features?? Who can say?! (╯°□°）╯︵ ┻━┻
-If you find something weird:
-
-1. Blink twice 👀
-
-2. Take a deep breath 🍵
-
-3. File an issue! (Or send snacks 🍪)
-
----
-
-## 🎀 Contributing
-We love pull requests almost as much as we love bubble tea 🧋
-Please keep commits cute and helpful! No mean code allowed! (ง •̀_•́)ง
-
----
-
-## 💖 Credits
-Made with ✨chaos magic✨, caffeine, and way too many rubber duckies 🐤🐤🐤
-Special thanks to the bugs that didn’t fight back. You will be missed 😌
-
----
-
-## ⚠️ Disclaimer
-No unicorns were harmed in the making of this repo 🦄💗
-Software may spontaneously sparkle. Use at your own risk ✨
-
----
-
-## 🌈 License
-MIT License — because freedom (｡♥‿♥｡)
+git clone https://https://github.com/FynnJ/TinkerforgeTeamAndreas/
+cd wasserfall-im-bluetenmeer  
+npm install   # or yarn install, or pray to the monitoring deities 🙏  
+npm run start
